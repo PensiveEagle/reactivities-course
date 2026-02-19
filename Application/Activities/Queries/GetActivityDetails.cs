@@ -16,9 +16,7 @@ public class GetActivityDetails
     {
         public async Task<Activity> Handle(Query request, CancellationToken cancellationToken)
         {
-            var activity = await context.Activities.FindAsync([request.Id], cancellationToken);
-
-            if (activity == null) throw new Exception("Activity not found");
+            var activity = await context.Activities.FindAsync([request.Id], cancellationToken) ?? throw new Exception("Activity not found");
 
             return activity;
         }
