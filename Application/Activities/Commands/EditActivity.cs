@@ -16,7 +16,7 @@ public class EditActivity
     {
         public async Task Handle(Command request, CancellationToken cancellationToken)
         {
-            var activity = await context.Activities.FindAsync([request.Activity.Id], cancellationToken) ?? throw new Exception("Cannot find activity!");
+            var activity = await context.Activities.FindAsync([request.Activity.Id], cancellationToken) ?? throw new ArgumentException("Cannot find activity!");
 
             mapper.Map(request.Activity, activity);
 
