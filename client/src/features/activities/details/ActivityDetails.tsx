@@ -10,7 +10,7 @@ type Props = {
 export default function ActivityDetails({selectedActivity, cancelSelectActivity, openForm}: Props) {
 
   const {activities} = useActivities();
-  const activity = activities?.find(x => x.id = selectedActivity.id);
+  const activity = activities?.find(x => x.id === selectedActivity.id);
 
   if (!activity) return <Typography>Loading...</Typography>
 
