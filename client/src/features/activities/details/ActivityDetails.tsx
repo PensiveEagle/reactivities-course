@@ -1,27 +1,30 @@
-import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material"
+import { Grid2, Typography } from "@mui/material"
+import { useParams } from "react-router";
+import { useActivities } from "../../../lib/hooks/useActivities";
+import ActivityDetailsHeader from "./ActivityDetailsHeader";
+import ActivityDetailsInfo from "./ActivityDetailsInfo";
+import ActivityDetailsChat from "./ActivityDetailsChat";
+import ActivityDetailsSidebar from "./ActivityDetailsSidebar";
 
-type Props = {
-    activity: Activity
-    cancelSelectActivity: () => void
-    openForm: (id: string) => void
-}
+export default function ActivityDetails() {
+    const {id} = useParams();
+    const {activity, isLoadingActivity} = useActivities(id);
 
-export default function ActivityDetails({activity, cancelSelectActivity, openForm}: Props) {
-  return (
-    <Card sx={{borderRadius: 3}}>
-        <CardMedia 
-            component="img"
-            src={`/images/categoryImages/${activity.category}.jpg`}
-        />
-        <CardContent>
-            <Typography variant="h5">{activity.title}</Typography>
-            <Typography variant="subtitle1" fontWeight="light">{activity.date}</Typography>
-            <Typography variant="body1">{activity.description}</Typography>
-        </CardContent>
-        <CardActions>
-            <Button onClick={() => openForm(activity.id)} color="primary">Edit</Button>
-            <Button onClick={cancelSelectActivity} color="inherit">Close</Button>
-        </CardActions>
-    </Card>
-  )
+    if (isLoadingActivity) return <Typography>Loading...</Typography>
+
+    if (!activity) return <Typography>Activity not found!</Typography>
+
+    return (
+        <Grid2 container spacing={3}>
+            <Grid2 size={8}>
+                <ActivityDetailsHeader activity={activity}/>
+                <ActivityDetailsInfo activity={activity}/>
+                <ActivityDetailsChat />
+            </Grid2>
+            <Grid2 size={4}>
+                <ActivityDetailsSidebar />
+            </Grid2>
+            
+        </Grid2>
+    )
 }
